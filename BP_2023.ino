@@ -155,7 +155,7 @@ void loop() {
 
     if (commandRecv) {
 
-      std::string input = command;
+      std::string input = command.c_str();
 
       // Remove the curly braces from the string
       input = input.substr(1, input.length() - 2);
