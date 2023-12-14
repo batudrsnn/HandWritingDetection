@@ -166,6 +166,7 @@ DATA_TYPE dLossCalc( unsigned int layerIndx, unsigned int nodeIndx) {
 }
 
 void forwardProp() {
+	
 	DATA_TYPE Fsum = 0;
 	int maxIndx = 0;
 	// Propagating through network
@@ -234,7 +235,7 @@ void backwardProp() {
   }
 }
 
-// const double lambda = 0.2 /* your regularization strength */;
+// const double lambda = 0.6 /* your regularization strength */;
 
 // void backwardProp() {
 //   for (unsigned int i = numLayers - 1; i > 1; i--) {
@@ -430,4 +431,23 @@ void packUnpackVector(int Type)
 void setupNN(DATA_TYPE* wbptr) {
   WeightBiasPtr = wbptr;
   createNetwork();
+}
+
+void predict(DATA_TYPE image_data[IN_VEC_SIZE]) {
+  const char* words[20] = {"the","of","and","a","to","in","is","you","that","it","he","was","for","on","are","as","with","his","they","I"};
+
+  int maxIndx = 0;
+  for (unsigned int j = 0; j < IN_VEC_SIZE; j++) {
+    input[j] = image_data[j];
+  }
+
+  forwardProp();
+  for (unsigned int j = 1; j < OUT_VEC_SIZE; j++) {
+    if (y[maxIndx] < y[j]) {
+      maxIndx = j;
+    }
+  }
+
+  Serial.println("The words is: ");
+  Serial.print(words[maxIndx]);
 }
